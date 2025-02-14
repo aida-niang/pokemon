@@ -1,12 +1,5 @@
 import pygame
-pygame.init()
-
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Pokémon Battle")
-font = pygame.font.Font(None, 36)
-clock = pygame.time.Clock()
-
+from settings import *
 
 class Menu:
     def __init__(self):
