@@ -40,5 +40,18 @@ def draw_pokemon_battle(index1, index2):  #Displays both Pokémon on the screen 
 
     pygame.display.flip()
 
+# Game loop
+running = True
+while running:
+    draw_pokemon_battle(current_index, opponent_index)
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                current_index = (current_index + 1) % len(pokemon_list)
+            elif event.key == pygame.K_LEFT:
+                current_index = (current_index - 1) % len(pokemon_list)
 
 pygame.quit()
