@@ -11,6 +11,13 @@ DATA_DIR = "data"
 SPRITE_DIR = os.path.join(DATA_DIR, "sprites")
 POKEMON_FILE = os.path.join(DATA_DIR, "pokemon.json")
 
+# Manually define the three Pokémon (Carapuce, Salamèche, Bulbizarre)
+pokemon_choices = [
+    {"name": "Carapuce", "id": 7, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"},
+    {"name": "Salamèche", "id": 4, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"},
+    {"name": "Bulbizarre", "id": 1, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"}
+]
+
 # Fetch Pokémon from API (Fallback to Local Data)
 def fetch_pokemon():
     api_url = "https://pokebuildapi.fr/api/v1/pokemon/generation/1"
