@@ -2,6 +2,7 @@ import pygame
 import random
 from utils import load_sprite
 from settings import *
+from battle import battle  # Import the battle function
 
 pygame.init()
 
@@ -12,16 +13,10 @@ pokemon_choices = [
     {"name": "Bulbizarre", "id": 1, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"}
 ]
 
-def draw_health_bar(x, y, health, max_health):
-    bar_width = 150
-    bar_height = 15
-    fill = (health / max_health) * bar_width
-    pygame.draw.rect(screen, RED, (x, y, bar_width, bar_height))
-    pygame.draw.rect(screen, GREEN, (x, y, fill, bar_height))
-
 def select_pokemon():
     """Menu de sélection du Pokémon"""
     global player_pokemon, enemy_pokemon, current_index
+    current_index = 0  # Initialize index
 
     running = True
     while running:
@@ -53,9 +48,8 @@ def select_pokemon():
                     enemy_pokemon = random.choice(pokemon_choices)  # Random enemy choice
                     running = False
 
-
-
 # Main Game Loop
 select_pokemon()
+battle(player_pokemon, enemy_pokemon)  # Call battle with selected Pokémon
 
 pygame.quit()
