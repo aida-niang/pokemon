@@ -1,3 +1,5 @@
+# utils.py
+
 import os
 import json
 import pygame
@@ -51,3 +53,4 @@ def load_sprite(pokemon):
 
     print(f"❌ Sprite not found for {pokemon['name']}")
     return None
+

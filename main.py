@@ -1,57 +1,80 @@
 import pygame
-from utils import load_pokemon, load_sprite
+import random
+from utils import load_sprite
 
 pygame.init()
-
-# Load Pokémon
-pokemon_list = load_pokemon()
-current_index = 0
-opponent_index = 1  # Assume an opponent exists at index 1 for simplicity
 
 # Screen setup
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pokémon Battle")
 
-def draw_pokemon_battle(index1, index2):  #Displays both Pokémon on the screen during battle.
-    screen.fill((255, 255, 255))  # White background
+# Manually define the three Pokémon (Carapuce, Salamèche, Bulbizarre)
+pokemon_choices = [
+    {"name": "Carapuce", "id": 7, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"},
+    {"name": "Salamèche", "id": 4, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"},
+    {"name": "Bulbizarre", "id": 1, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"}
+]
 
-    # Load the first Pokémon (attacker)
-    pokemon1 = pokemon_list[index1]
-    sprite1 = load_sprite(pokemon1)
-    if sprite1:
-        sprite1 = pygame.transform.scale(sprite1, (150, 150))  # Resize if needed
-        screen.blit(sprite1, (WIDTH // 4 - 75, HEIGHT // 2 - 75))  # Left side for attacker
+current_index = 0
+player_pokemon = None
+enemy_pokemon = None
 
-    # Load the second Pokémon (defender)
-    pokemon2 = pokemon_list[index2]
-    sprite2 = load_sprite(pokemon2)
-    if sprite2:
-        sprite2 = pygame.transform.scale(sprite2, (150, 150))  # Resize if needed
-        screen.blit(sprite2, (3 * WIDTH // 4 - 75, HEIGHT // 2 - 75))  # Right side for defender
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
-    # Display Pokémon names
-    font = pygame.font.Font(None, 36)
-    text1 = font.render(pokemon1["name"].capitalize(), True, (0, 0, 0))
-    screen.blit(text1, (WIDTH // 4 - text1.get_width() // 2, HEIGHT - 100))
+# Fonts
+font = pygame.font.Font(None, 36)
 
-    text2 = font.render(pokemon2["name"].capitalize(), True, (0, 0, 0))
-    screen.blit(text2, (3 * WIDTH // 4 - text2.get_width() // 2, HEIGHT - 100))
+def draw_text(text, x, y, color=BLACK):
+    text_surface = font.render(text, True, color)
+    screen.blit(text_surface, (x - text_surface.get_width() // 2, y))
 
-    pygame.display.flip()
+def draw_health_bar(x, y, health, max_health):
+    bar_width = 150
+    bar_height = 15
+    fill = (health / max_health) * bar_width
+    pygame.draw.rect(screen, RED, (x, y, bar_width, bar_height))
+    pygame.draw.rect(screen, GREEN, (x, y, fill, bar_height))
 
-# Game loop
-running = True
-while running:
-    draw_pokemon_battle(current_index, opponent_index)
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
-                current_index = (current_index + 1) % len(pokemon_list)
-            elif event.key == pygame.K_LEFT:
-                current_index = (current_index - 1) % len(pokemon_list)
+def select_pokemon():
+    """Menu de sélection du Pokémon"""
+    global player_pokemon, enemy_pokemon, current_index
+
+    running = True
+    while running:
+        screen.fill(WHITE)
+        draw_text("Select Your Pokémon", WIDTH // 2, 50)
+
+        pokemon = pokemon_choices[current_index]
+        sprite = load_sprite(pokemon)
+        
+        if sprite:
+            sprite = pygame.transform.scale(sprite, (200, 200))
+            screen.blit(sprite, (WIDTH // 2 - 100, HEIGHT // 2 - 100))
+
+        draw_text(pokemon["name"], WIDTH // 2, HEIGHT // 2 + 120)
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    current_index = (current_index + 1) % len(pokemon_choices)  # Cycle right
+                elif event.key == pygame.K_LEFT:
+                    current_index = (current_index - 1) % len(pokemon_choices)  # Cycle left
+                elif event.key == pygame.K_RETURN:
+                    player_pokemon = pokemon
+                    enemy_pokemon = random.choice(pokemon_choices)  # Random enemy choice
+                    running = False
+
+# Main Game Loop
+select_pokemon()
 
 pygame.quit()
