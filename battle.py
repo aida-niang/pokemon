@@ -19,8 +19,9 @@ def battle(player_pokemon, enemy_pokemon): #display pokemon battle
         screen.fill(WHITE)
 
         # Load Pokémon Sprites
-        player_sprite = load_sprite(player_pokemon)
-        enemy_sprite = load_sprite(enemy_pokemon)
+        player_sprite = load_sprite(player_pokemon["sprite"])
+        enemy_sprite = load_sprite(enemy_pokemon["sprite"])
+
 
         if player_sprite:
             player_sprite = pygame.transform.scale(player_sprite, (150, 150))

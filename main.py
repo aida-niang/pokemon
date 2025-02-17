@@ -1,12 +1,16 @@
 import pygame
 import random
 from menu import Menu
+from utils import load_sprite
+from settings import *
+from battle import battle  # Import the battle function
 
 pygame.init()
 
 # Set screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Pokémon Game")
 
 # Define colors
 WHITE = (255, 255, 255)
@@ -28,7 +32,7 @@ def draw_text(text, x, y):
 # Pokémon selection function
 def select_pokemon():
     """Menu for selecting a Pokémon"""
-    global player_pokemon, enemy_pokemon, current_index
+    global player_pokemon, enemy_pokemon
     current_index = 0  # Initialize index
 
     running = True
@@ -38,7 +42,18 @@ def select_pokemon():
 
         pokemon = pokemon_choices[current_index]
         
+        # Charger l'image du Pokémon
+        sprite_url = pokemon["sprite"]  # Récupère l'URL sous forme de string
+        sprite = load_sprite(sprite_url)  # Passe uniquement l'URL à load_sprite()
+
+        
+        if sprite:
+            sprite = pygame.transform.scale(sprite, (200, 200))  # Redimensionner
+            screen.blit(sprite, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 100))
+
+        # Affichage du nom et des points de vie
         draw_text(pokemon["name"], SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 120)
+        draw_text(f"HP: 100", SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 160)  # Exemple de PV
 
         pygame.display.flip()
 
@@ -56,6 +71,8 @@ def select_pokemon():
                     enemy_pokemon = random.choice(pokemon_choices)  # Random enemy choice
                     running = False
 
+    return player_pokemon, enemy_pokemon  # Retourner les choix pour la bataille
+
 # Main loop
 def main():
     menu = Menu()
@@ -69,14 +86,16 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            choice = menu.handle_event(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                choice = menu.handle_event(event)
 
-            if choice == 0:  # "Launch the game"
-                select_pokemon()
-            elif choice == 1:  # "Add a Pokémon" (to be implemented)
-                print("Add Pokémon feature coming soon...")
-            elif choice == 2:  # "Quit"
-                running = False
+                if choice == 0:  # "Launch the game"
+                    player_pokemon, enemy_pokemon = select_pokemon()
+                    battle(player_pokemon, enemy_pokemon)  # Lancer la bataille après la sélection
+                elif choice == 1:  # "Add a Pokémon" (to be implemented)
+                    print("Add Pokémon feature coming soon...")
+                elif choice == 2:  # "Quit"
+                    running = False
 
     pygame.quit()
 
