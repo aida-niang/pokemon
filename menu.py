@@ -25,6 +25,8 @@ class Menu:
         for option in self.options:
             text = font.render(option, True, (255, 255, 255))
             text_rect = text.get_rect(center=(WIDTH // 2, y))
+            button_rect = pygame.Rect(text_rect.x - 20, text_rect.y - 10, text_rect.width + 40, text_rect.height + 20)
+            pygame.draw.rect(screen, (0, 122, 255), button_rect, border_radius=10)
             screen.blit(text, text_rect)
             self.button_rects.append(text_rect)
             y += 80
