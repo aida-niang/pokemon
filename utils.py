@@ -4,7 +4,6 @@ import os
 import json
 import pygame
 import requests
-import io
 from io import BytesIO
 
 # Constants
@@ -14,9 +13,9 @@ POKEMON_FILE = os.path.join(DATA_DIR, "pokemon.json")
 
 # Manually define the three Pokémon (Carapuce, Salamèche, Bulbizarre)
 pokemon_choices = [
-    {"name": "Carapuce", "id": 7, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"},
+    {"name": "Bulbizarre", "id": 1, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"},
     {"name": "Salamèche", "id": 4, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"},
-    {"name": "Bulbizarre", "id": 1, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"}
+    {"name": "Carapuce", "id": 7, "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"}
 ]
 
 # Fetch Pokémon from API (Fallback to Local Data)
@@ -44,17 +43,20 @@ def load_pokemon():
         return json.load(f)
 
 # Load sprite (URL first, fallback to local file)
-def load_sprite(url):
-    """Charge une image depuis une URL et la convertit en surface Pygame."""
-    try:
-        response = requests.get(url)  # Télécharge l'image
-        if response.status_code == 200:
-            image = pygame.image.load(io.BytesIO(response.content))  # Charge l'image en mémoire
-            return image
-        else:
-            print(f"Erreur de chargement de l'image: {url}")
-            return None
-    except Exception as e:
-        print(f"Exception lors du chargement du sprite: {e}")
-        return None
+def load_sprite(pokemon):
+    sprite_url = pokemon.get("sprite")
+    local_sprite_path = os.path.join(SPRITE_DIR, f"{pokemon['id']}.png")
 
+    if sprite_url and sprite_url.startswith("http"):
+        try:
+            response = requests.get(sprite_url, timeout=5)
+            if response.status_code == 200:
+                return pygame.image.load(BytesIO(response.content))
+        except requests.exceptions.RequestException as e:
+            print(f"⚠️ Error loading {pokemon['name']} sprite from URL: {e}")
+
+    if os.path.exists(local_sprite_path):
+        return pygame.image.load(local_sprite_path)
+
+    print(f"❌ Sprite not found for {pokemon['name']}")
+    return None
