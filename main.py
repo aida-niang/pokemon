@@ -83,7 +83,6 @@ while option != 2:
         if option == 1:
             pokedex()
         elif option == 0:
-            # Directly use the available Pokémon without asking
             available_pokemon = get_player_pokemon(player_name, pokemon_choices)
             player_pokemon, enemy_pokemon = select_pokemon(player_name, pokemon_choices)
 
