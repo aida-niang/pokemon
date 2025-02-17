@@ -4,13 +4,15 @@ from utils import load_sprite
 from settings import *
 
 def draw_health_bar(x, y, health, max_health):
+    """Draws a health bar for Pokémon."""
     bar_width = 150
     bar_height = 15
     fill = (health / max_health) * bar_width
     pygame.draw.rect(screen, RED, (x, y, bar_width, bar_height))
     pygame.draw.rect(screen, GREEN, (x, y, fill, bar_height))
 
-def battle(player_pokemon, enemy_pokemon): #display pokemon battle
+def battle(player_pokemon, enemy_pokemon):
+    """Simulates a Pokémon battle."""
     player_health = 100  # Initialize player health
     enemy_health = 100  # Initialize enemy health
     running = True
@@ -46,30 +48,36 @@ def battle(player_pokemon, enemy_pokemon): #display pokemon battle
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:  # Attaque
+                if event.key == pygame.K_SPACE:  # Attack action
                     # Player's attack on enemy
                     damage = random.randint(15, 25)  # Random attack damage
                     enemy_health -= damage
                     print(f"{player_pokemon['name']} attacked! Enemy health: {enemy_health}")
 
+                    # Check if enemy is defeated
                     if enemy_health <= 0:
                         print(f"{enemy_pokemon['name']} is defeated! 🎉")
                         draw_text(f"{enemy_pokemon['name'].capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
                         pygame.display.flip()
                         pygame.time.delay(2000)
                         running = False
+                        winner = player_pokemon  # Player wins
 
-                    # Enemy attacks
-                    if enemy_health > 0:
+                    # If enemy is still alive, it attacks back
+                    elif enemy_health > 0:
                         damage = random.randint(15, 25)
                         player_health -= damage
                         print(f"Enemy {enemy_pokemon['name']} attacked! Player health: {player_health}")
 
+                        # Check if player is defeated
                         if player_health <= 0:
                             print(f"{player_pokemon['name']} is defeated! 💥")
                             draw_text(f"{player_pokemon['name'].capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
                             pygame.display.flip()
                             pygame.time.delay(2000)
                             running = False
+                            winner = enemy_pokemon  # Enemy wins
 
         pygame.time.delay(500)  
+
+    return winner  

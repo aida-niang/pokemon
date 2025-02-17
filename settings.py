@@ -20,6 +20,7 @@ current_index = 0
 player_pokemon = None
 enemy_pokemon = None
 
+
 #Display text
 def draw_text(text, x, y, color=BLACK):
     text_surface = font.render(text, True, color)
