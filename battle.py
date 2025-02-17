@@ -80,4 +80,4 @@ def battle(player_pokemon, enemy_pokemon):
 
         pygame.time.delay(500)  
 
-    return winner  
+    return winner

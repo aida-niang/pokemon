@@ -1,5 +1,3 @@
-# Main game loop
-
 import pygame
 import random
 from utils import load_sprite, fetch_pokemon, pokemon_choices
@@ -8,6 +6,7 @@ from battle import battle
 from menu import Menu
 from pokedex import pokedex
 from players import get_player_name, load_pokedex  
+from save_manager import load_save, save_game  
 
 pygame.init()
 
@@ -17,10 +16,14 @@ pokemon_list = fetch_pokemon()
 # Load existing save if available
 saved_data = load_save()
 if player_name in saved_data:
-    saved_pokemon = saved_data[player_name]["pokemon_won"]
-    print(f"🎉 Welcome back, {player_name}! Your saved Pokémon: {saved_pokemon['name']}")
+    saved_pokemon_list = saved_data[player_name].get("pokemon_won", [])
+    if saved_pokemon_list:
+        saved_pokemon = saved_pokemon_list[-1]  # Get the last Pokémon the player won
+        print(f"🎉 Welcome back, {player_name}! Your saved Pokémon: {saved_pokemon['name']}")
+    else:
+        saved_pokemon = None  # No saved Pokémon
 else:
-    saved_pokemon = None  # No saved Pokémon
+    saved_pokemon = None  # No saved data
 
 def select_pokemon():
     global player_pokemon, enemy_pokemon
@@ -67,6 +70,7 @@ def select_pokemon():
 
     return player_pokemon, enemy_pokemon
 
+
 # Main Game Loop
 menu = Menu()
 option = None
@@ -108,9 +112,9 @@ while option != 2:
             winner = battle(player_pokemon, enemy_pokemon)
             if winner == player_pokemon:
                 print(f"🎉 {player_name} won with {player_pokemon['name']}!")
-                save_game(player_name, player_pokemon)  # Save the player's Pokémon (not the enemy)
+                save_game(player_name, enemy_pokemon)  # Save the defeated enemy Pokémon if the player wins
             else:
                 print(f"💥 {player_name} lost with {player_pokemon['name']}!")
-                save_game(player_name, enemy_pokemon)  # Save the defeated enemy Pokémon if the player loses
+                save_game(player_name, enemy_pokemon)  # Save the defeated enemy Pokémon even if the player loses
 
 pygame.quit()
