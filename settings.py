@@ -12,9 +12,6 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
-# Fonts
-font = pygame.font.Font(None, 36)
-
 #constants
 current_index = 0
 player_pokemon = None
