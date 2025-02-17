@@ -1,23 +1,39 @@
 import json
-import os
 
-def load_save(): #Load the game save file.
-    if os.path.exists('save_data.json'):
-        with open('save_data.json', 'r') as file:
+# Load save data from file
+def load_save():
+    try:
+        with open("save_data.json", "r") as file:
             return json.load(file)
-    else:
-        return {}
+    except FileNotFoundError:
+        return {}  # Return an empty dictionary if no save file exists
 
-def save_game(player_name, enemy_pokemon): #Save the player's game, including the Pokémon they defeated.
+# Save game data to file
+def save_game(player_name, defeated_pokemon):
+    # Load existing save data
     saved_data = load_save()
 
-    if player_name not in saved_data:
-        saved_data[player_name] = {"pokemon_won": []}
+    # If player data exists, update it, otherwise, create a new entry
+    if player_name in saved_data:
+        # Add the defeated Pokémon to the player's list of won Pokémon (if not already in the list)
+        if defeated_pokemon not in saved_data[player_name].get("pokemon_won", []):
+            saved_data[player_name]["pokemon_won"].append(defeated_pokemon)
+    else:
+        # Create a new entry for the player if they don't exist
+        saved_data[player_name] = {
+            "pokemon_won": [defeated_pokemon]  # Add the first won Pokémon
+        }
 
-    # Add the defeated enemy to the player's won Pokémon list
-    saved_data[player_name]["pokemon_won"].append(enemy_pokemon)
-
-    with open('save_data.json', 'w') as file:
+    # Write the updated data back to the save file
+    with open("save_data.json", "w") as file:
         json.dump(saved_data, file, indent=4)
 
-    print(f"{enemy_pokemon['name']} has been saved to your collection!")
+# Get the player's available Pokémon (initial + won Pokémon)
+def get_player_pokemon(player_name, pokemon_choices):
+    saved_data = load_save()
+    if player_name in saved_data:
+        # Combine initial Pokémon (first 3) with the ones won by the player
+        return pokemon_choices[:3] + saved_data[player_name].get("pokemon_won", [])
+    else:
+        # If no saved data, just return the first 3 Pokémon from pokemon_choices
+        return pokemon_choices[:3]

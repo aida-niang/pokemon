@@ -251,6 +251,145 @@
                     "pokedexIdd": 72
                 },
                 "apiResistancesWithAbilities": []
+            },
+            {
+                "id": 63,
+                "pokedexId": 63,
+                "name": "Abra",
+                "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/63.png",
+                "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png",
+                "slug": "Abra",
+                "stats": {
+                    "HP": 25,
+                    "attack": 20,
+                    "defense": 15,
+                    "special_attack": 105,
+                    "special_defense": 55,
+                    "speed": 90
+                },
+                "apiTypes": [
+                    {
+                        "name": "Psy",
+                        "image": "https://static.wikia.nocookie.net/pokemongo/images/2/21/Psychic.png"
+                    }
+                ],
+                "apiGeneration": 1,
+                "apiResistances": [
+                    {
+                        "name": "Normal",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Combat",
+                        "damage_multiplier": 0.5,
+                        "damage_relation": "resistant"
+                    },
+                    {
+                        "name": "Vol",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Poison",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Sol",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Roche",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Insecte",
+                        "damage_multiplier": 2,
+                        "damage_relation": "vulnerable"
+                    },
+                    {
+                        "name": "Spectre",
+                        "damage_multiplier": 2,
+                        "damage_relation": "vulnerable"
+                    },
+                    {
+                        "name": "Acier",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Feu",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Eau",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Plante",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "\u00c9lectrik",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Psy",
+                        "damage_multiplier": 0.5,
+                        "damage_relation": "resistant"
+                    },
+                    {
+                        "name": "Glace",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "Dragon",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    },
+                    {
+                        "name": "T\u00e9n\u00e8bres",
+                        "damage_multiplier": 2,
+                        "damage_relation": "vulnerable"
+                    },
+                    {
+                        "name": "F\u00e9e",
+                        "damage_multiplier": 1,
+                        "damage_relation": "neutral"
+                    }
+                ],
+                "resistanceModifyingAbilitiesForApi": [],
+                "apiEvolutions": [
+                    {
+                        "name": "Kadabra",
+                        "pokedexId": 64
+                    }
+                ],
+                "apiPreEvolution": "none",
+                "apiResistancesWithAbilities": []
+            },
+            {
+                "name": "Salam\u00e8che",
+                "id": 4,
+                "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
+            },
+            {
+                "name": "Bulbizarre",
+                "id": 1,
+                "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+            },
+            {
+                "name": "Carapuce",
+                "id": 7,
+                "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
             }
         ]
     }
