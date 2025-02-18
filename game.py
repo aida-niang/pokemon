@@ -12,24 +12,7 @@ from save_manager import load_save, save_game, get_player_pokemon,get_player_lev
 
 pygame.init()
 
-player_name = get_player_name()
-pokemon_list = fetch_pokemon()
-player_level = get_player_level(player_name)  
-background = pygame.image.load('assets/background/bg1.jpg')
-
-# Load existing save if available
-saved_data = load_save()
-if player_name in saved_data:
-    saved_pokemon_list = saved_data[player_name].get("pokemon_won", [])
-    if saved_pokemon_list:
-        saved_pokemon = saved_pokemon_list[-1]  # Get the last Pokémon the player won
-        print(f"🎉 Welcome back, {player_name}! Your saved Pokémon: {saved_pokemon}")
-        if isinstance(saved_pokemon, dict):
-            print(f"Saved Pokémon Name: {saved_pokemon['name']}")
-        else:
-            print("Error: The saved Pokémon is not in the expected format.")
-    else:
-        saved_pokemon = None  # No saved Pokémon
+background = pygame.image.load('assets/images/background/bg1.jpg')
   
 def select_pokemon(player_name, pokemon_choices):
     """Handles Pokémon selection."""
@@ -79,7 +62,6 @@ def start_game():
     player_name = get_player_name()
     pokemon_list = fetch_pokemon()
     player_level = get_player_level(player_name)  
-    background = pygame.image.load('assets/background/bg1.jpg')
 
     # Load existing save if available
     saved_data = load_save()
