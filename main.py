@@ -6,12 +6,13 @@ from battle import battle
 from menu import Menu
 from pokedex import pokedex
 from players import get_player_name  
-from save_manager import load_save, save_game, get_player_pokemon
+from save_manager import load_save, save_game, get_player_pokemon,get_player_level
 
 pygame.init()
 
 player_name = get_player_name()
 pokemon_list = fetch_pokemon()
+player_level = get_player_level(player_name)  
 background = pygame.image.load('data/background/bg1.jpg')
 
 # Load existing save if available
@@ -20,12 +21,14 @@ if player_name in saved_data:
     saved_pokemon_list = saved_data[player_name].get("pokemon_won", [])
     if saved_pokemon_list:
         saved_pokemon = saved_pokemon_list[-1]  # Get the last Pokémon the player won
-        print(f"🎉 Welcome back, {player_name}! Your saved Pokémon: {saved_pokemon['name']}")
+        print(f"🎉 Welcome back, {player_name}! Your saved Pokémon: {saved_pokemon}")
+        if isinstance(saved_pokemon, dict):
+            print(f"Saved Pokémon Name: {saved_pokemon['name']}")
+        else:
+            print("Error: The saved Pokémon is not in the expected format.")
     else:
         saved_pokemon = None  # No saved Pokémon
-else:
-    saved_pokemon = None  # No saved data
-
+  
 def select_pokemon(player_name, pokemon_choices):
     """Handles Pokémon selection."""
     global player_pokemon
@@ -87,7 +90,7 @@ while option != 2:
             player_pokemon = select_pokemon(player_name, pokemon_choices)
 
             # Create a list of enemies (excluding player's Pokémon)
-            enemy_pokemon_list = [p for p in pokemon_choices if p["id"] != player_pokemon["id"]]
+            enemy_pokemon_list = [p for p in pokemon_list if p["id"] != player_pokemon["id"]]
 
             while True:  # Keep battling until player loses or runs out of enemies
                 if not enemy_pokemon_list:
@@ -98,11 +101,11 @@ while option != 2:
                     break
 
                 enemy_pokemon = enemy_pokemon_list.pop(0)  # Get next enemy
-                winner = battle(player_pokemon, [enemy_pokemon])  # Pass list with one enemy
+                winner = battle(player_pokemon, [enemy_pokemon], player_name)  # Pass list with one enemy
 
                 if winner == player_pokemon:
                     print(f"🎉 {player_name} won with {player_pokemon['name']}!")
-                    save_game(player_name, enemy_pokemon)  # Save the defeated Pokémon
+                    save_game(player_name, enemy_pokemon, player_level)  # Save the defeated Pokémon
                 else:
                     print(f"💥 {player_name} lost with {player_pokemon['name']}!")
                     break  # Stop the loop when the player loses

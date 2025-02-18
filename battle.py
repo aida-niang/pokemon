@@ -1,7 +1,8 @@
 import pygame
 import random
-from utils import load_sprite
+from utils import load_sprite, pokemon_choices
 from settings import *
+from save_manager import save_game, get_player_level
 
 background = pygame.image.load('data/background/bg1.jpg')
 
@@ -13,10 +14,11 @@ def draw_health_bar(x, y, health, max_health):
     pygame.draw.rect(screen, RED, (x, y, bar_width, bar_height))
     pygame.draw.rect(screen, GREEN, (x, y, fill, bar_height))
 
-def battle(player_pokemon, enemy_pokemon_list):
+def battle(player_pokemon, enemy_pokemon_list, player_name):
     """Simulates a Pokémon battle with movement and multiple enemies."""
     player_health = 100  # Initialize player health
     enemy_index = 0  # Track the current enemy Pokémon
+    player_level = get_player_level(player_name)  # Load the player's level
 
     # Player Pokémon position
     player_x = WIDTH // 4 - 75
@@ -35,6 +37,9 @@ def battle(player_pokemon, enemy_pokemon_list):
 
         enemy_pokemon = enemy_pokemon_list[enemy_index]
         enemy_health = 100  # Reset enemy health for each new Pokémon
+        player_health = 100  # Reset player health at the start of each fight
+
+       
 
         # Set random positions for player and enemy Pokémon to prevent overlap
         player_offset_x = random.randint(-50, 50)
@@ -51,12 +56,10 @@ def battle(player_pokemon, enemy_pokemon_list):
 
             if player_sprite:
                 player_sprite = pygame.transform.scale(player_sprite, (150, 150))
-                # Apply random offsets to player position
                 screen.blit(player_sprite, (player_x + player_offset_x, player_y + player_offset_y))
 
             if enemy_sprite:
                 enemy_sprite = pygame.transform.scale(enemy_sprite, (150, 150))
-                # Apply random offsets to enemy position
                 screen.blit(enemy_sprite, (3 * WIDTH // 4 - 75 + enemy_offset_x, HEIGHT // 2 - 75 + enemy_offset_y))
 
             # Display names
@@ -67,6 +70,7 @@ def battle(player_pokemon, enemy_pokemon_list):
             draw_health_bar(WIDTH // 4 - 75, HEIGHT - 130, player_health, 100)
             draw_health_bar(3 * WIDTH // 4 - 75, HEIGHT - 130, enemy_health, 100)
 
+            draw_text(f"Level: {player_level}", WIDTH // 2, HEIGHT - 20)
             draw_text("Arrow Keys: Move | SPACE: Attack", WIDTH // 2, HEIGHT - 50)
 
             pygame.display.flip()
@@ -89,25 +93,29 @@ def battle(player_pokemon, enemy_pokemon_list):
                         enemy_health -= damage
                         print(f"{player_pokemon['name']} attacked! Enemy health: {enemy_health}")
 
-                        if enemy_health <= 0:
-                            print(f"{enemy_pokemon['name']} is defeated! 🎉")
-                            draw_text(f"{enemy_pokemon['name'].capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
-                            pygame.display.flip()
-                            pygame.time.delay(2000)
-                            enemy_index += 1  # Move to the next enemy
-                            break  # Exit inner loop to load next enemy
+                    if enemy_health <= 0:
+                        print(f"{enemy_pokemon['name']} is defeated! 🎉")
+                        player_level += 1  # Increment the player's level
 
-                        # Enemy attacks back
-                        damage = random.randint(15, 25)
-                        player_health -= damage
-                        print(f"Enemy {enemy_pokemon['name']} attacked! Player health: {player_health}")
+                        # Reset player health to 100 after winning
+                        player_health = 100
 
-                        if player_health <= 0:
-                            print(f"{player_pokemon['name']} is defeated! 💥")
-                            draw_text(f"{player_pokemon['name'].capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
-                            pygame.display.flip()
-                            pygame.time.delay(2000)
-                            return enemy_pokemon  # Enemy wins
+                        # Save game progress (save full Pokémon data instead of just name)
+                        save_game(player_name, enemy_pokemon, player_level)
+
+                        break  # Exit inner loop to load next enemy
+
+                    # Enemy attacks back
+                    damage = random.randint(15, 25)
+                    player_health -= damage
+                    print(f"Enemy {enemy_pokemon['name']} attacked! Player health: {player_health}")
+
+                    if player_health <= 0:
+                        print(f"{player_pokemon['name']} is defeated! 💥")
+                        draw_text(f"{player_pokemon['name'].capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
+                        pygame.display.flip()
+                        pygame.time.delay(2000)
+                        return enemy_pokemon  # Enemy wins
 
             pygame.time.delay(50)  # Reduce delay for smoother movement
 
