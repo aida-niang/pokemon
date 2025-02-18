@@ -2,15 +2,14 @@
 
 import os
 import pygame
+from settings import *
 
 POKEDEX_FILE = "pokedex.txt"
-background = pygame.image.load('data/background/bg1.jpg')
+background = pygame.image.load('assets/background/bg1.jpg')
 
 def get_player_name():
     """Ask the player to enter their name."""
     pygame.init()
-    
-    screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption("Enter Your Name")
     
     input_box = pygame.Rect(300, 300, 200, 40)

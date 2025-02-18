@@ -2,7 +2,7 @@ import pygame
 from settings import *
 from pokedex import pokedex
 
-background = pygame.image.load('data/background/bg1.jpg')
+background = pygame.image.load('assets/background/bg1.jpg')
 
 class Menu:
     def __init__(self):

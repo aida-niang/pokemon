@@ -4,7 +4,7 @@ from utils import load_sprite, pokemon_choices
 from settings import *
 from save_manager import save_game, get_player_level
 
-background = pygame.image.load('data/background/bg1.jpg')
+background = pygame.image.load('assets/background/bg1.jpg')
 
 def draw_health_bar(x, y, health, max_health):
     """Draws a health bar for Pokémon."""
