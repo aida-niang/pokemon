@@ -392,5 +392,24 @@
                 "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
             }
         ]
+    },
+    "amina": {
+        "pokemon_won": [
+            {
+                "name": "Bulbizarre",
+                "id": 1,
+                "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+            },
+            {
+                "name": "Carapuce",
+                "id": 7,
+                "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
+            },
+            {
+                "name": "Salam\u00e8che",
+                "id": 4,
+                "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
+            }
+        ]
     }
 }
