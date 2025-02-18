@@ -39,7 +39,15 @@ def battle(player_pokemon, enemy_pokemon_list, player_name):
         enemy_health = 100  # Reset enemy health for each new Pokémon
         player_health = 100  # Reset player health at the start of each fight
 
-       
+        # Load evolved Pokémon if the player is level 5 
+        if player_level == 5:
+            evolved_pokemon = next((p for p in pokemon_choices if p['name'] == player_pokemon['name']), None)
+            if evolved_pokemon:
+                print(f"🎉 {player_pokemon['name']} evolved into {evolved_pokemon['name']}!")
+                player_pokemon = evolved_pokemon  
+                player_sprite = load_sprite(player_pokemon)  
+        else:
+            player_sprite = load_sprite(player_pokemon)
 
         # Set random positions for player and enemy Pokémon to prevent overlap
         player_offset_x = random.randint(-50, 50)
