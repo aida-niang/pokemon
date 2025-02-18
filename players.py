@@ -4,6 +4,7 @@ import os
 import pygame
 
 POKEDEX_FILE = "pokedex.txt"
+background = pygame.image.load('data/background/bg1.jpg')
 
 def get_player_name():
     """Ask the player to enter their name."""
@@ -22,7 +23,7 @@ def get_player_name():
     font = pygame.font.Font(None, 36)
 
     while True:
-        screen.fill((0, 0, 0))
+        screen.blit(background, (0, 0))
         
         label = font.render("Enter your name:", True, (255, 255, 255))
         screen.blit(label, (310, 250))

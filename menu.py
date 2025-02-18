@@ -2,6 +2,8 @@ import pygame
 from settings import *
 from pokedex import pokedex
 
+background = pygame.image.load('data/background/bg1.jpg')
+
 class Menu:
     def __init__(self):
         self.options = [
@@ -18,7 +20,7 @@ class Menu:
             print(f"{i}. {option}")
 
     def draw(self):
-        screen.fill((50, 50, 50))
+        screen.blit(background, (0, 0))
         y = 200
         self.button_rects.clear()
         

@@ -12,6 +12,7 @@ pygame.init()
 
 player_name = get_player_name()
 pokemon_list = fetch_pokemon()
+background = pygame.image.load('data/background/bg1.jpg')
 
 # Load existing save if available
 saved_data = load_save()
@@ -34,7 +35,7 @@ def select_pokemon(player_name, pokemon_choices):
     available_pokemon = get_player_pokemon(player_name, pokemon_choices)
 
     while running:
-        screen.fill(WHITE)
+        screen.blit(background, (0, 0))
         draw_text("Select Your Pokémon", WIDTH // 2, 50)
 
         # Show current Pokémon selection

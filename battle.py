@@ -3,6 +3,8 @@ import random
 from utils import load_sprite
 from settings import *
 
+background = pygame.image.load('data/background/bg1.jpg')
+
 def draw_health_bar(x, y, health, max_health):
     """Draws a health bar for Pokémon."""
     bar_width = 150
@@ -18,7 +20,7 @@ def battle(player_pokemon, enemy_pokemon):
     running = True
 
     while running:
-        screen.fill(WHITE)
+        screen.blit(background, (0, 0))
 
         # Load Pokémon Sprites
         player_sprite = load_sprite(player_pokemon)
