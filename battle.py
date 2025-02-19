@@ -8,6 +8,11 @@ from pokemon import Pokemon
 # Load the background image
 background = pygame.image.load('assets/images/background/bg1.jpg')
 
+# Load the feu.png image (for the object)
+fire_object = pygame.image.load('fire.png')  # Adjust the path as needed
+fire_object = pygame.transform.scale(fire_object, (fire_object.get_width() // 6, fire_object.get_height() // 6))
+fire_object_rect = fire_object.get_rect()  # Get the object's rect for positioning
+
 def draw_health_bar(x, y, health, max_health):
     """Draws a health bar for Pokémon."""
     bar_width = 150
@@ -21,10 +26,14 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
     enemy_index = 0  # Track the current enemy Pokémon
     player_level = get_player_level(player_name)  # Retrieve the player's current level
 
-    # Player Pokémon initial position
+    # Player Pokémon initial position (fixed)
     player_x = WIDTH // 4 - 75
     player_y = HEIGHT // 2 - 75
-    speed = 10  # Player movement speed
+    speed = 10  # Player movement speed (not used for the Pokémon)
+
+    # Initial fire object position
+    fire_object_x = WIDTH // 2 - 50
+    fire_object_y = HEIGHT // 2 - 50
 
     running = True
     while running:
@@ -35,14 +44,6 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
             pygame.display.flip()
             pygame.time.delay(2000)
             break  # Exit battle loop
-
-        """# Check for evolution every 2 levels
-        evolution_stage = (player_level // 2)  # Determine evolution stage
-        evolved_pokemon = next((p for p in pokemon_choices if p['id'] == player_pokemon['id'] + evolution_stage), None)
-        if evolved_pokemon:
-            print(f"🎉 {player_pokemon['name']} evolved into {evolved_pokemon['name']}!")
-            player_pokemon = evolved_pokemon  # Update to evolved Pokémon"""
-
 
         # Set random positions for player and enemy Pokémon to prevent overlap
         player_offset_x = random.randint(-50, 50)
@@ -66,6 +67,9 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                 enemy_sprite = pygame.transform.scale(enemy_sprite, (150, 150))
                 screen.blit(enemy_sprite, (3 * WIDTH // 4 - 75 + enemy_offset_x, HEIGHT // 2 - 75 + enemy_offset_y))
 
+            # Draw fire object (the moving fireball)
+            screen.blit(fire_object, (fire_object_x, fire_object_y))
+
             # Display Pokémon names
             draw_text(playable_player_pokemon.name.capitalize(), WIDTH // 4, HEIGHT - 100)
             draw_text(playable_enemy_pokemon.name.capitalize(), 3 * WIDTH // 4, HEIGHT - 100)
@@ -76,7 +80,7 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
 
             # Display player level and controls
             draw_text(f"Level: {player_level}", WIDTH // 2, HEIGHT - 20)
-            draw_text("Arrow Keys: Move | 1: Attaque normale | 2: Attaque spéciale", WIDTH // 2, HEIGHT - 50)
+            draw_text("Arrow Keys: Move Fire | 1: Attaque normale | 2: Attaque spéciale", WIDTH // 2, HEIGHT // 2 - 50)
 
             pygame.display.flip()
 
@@ -85,29 +89,33 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                     running = False
                     return None  # Exit the function
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        player_x -= speed
-                    elif event.key == pygame.K_RIGHT:
-                        player_x += speed
-                    elif event.key == pygame.K_UP:
-                        player_y -= speed
-                    elif event.key == pygame.K_DOWN:
-                        player_y += speed
-                    elif event.key == pygame.K_1:  # Attack action
+                    # Do not move the player Pokémon
+                    # Handle the movement of the fire object with arrow keys
+                    if event.key == pygame.K_LEFT:  # Move fire object left
+                        fire_object_x -= speed
+                    elif event.key == pygame.K_RIGHT:  # Move fire object right
+                        fire_object_x += speed
+                    elif event.key == pygame.K_UP:  # Move fire object up
+                        fire_object_y -= speed
+                    elif event.key == pygame.K_DOWN:  # Move fire object down
+                        fire_object_y += speed
+
+                    # Actions for the Pokémon's attacks
+                    if event.key == pygame.K_1:  # Normal attack action
                         playable_player_pokemon.attack_target(playable_enemy_pokemon, playable_player_pokemon.normal_attack)
-                        if random.randint(0,1) == 0:
+                        if random.randint(0, 1) == 0:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
                         else:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
 
-                    elif event.key == pygame.K_2:  # Attack action
+                    elif event.key == pygame.K_2:  # Special attack action
                         playable_player_pokemon.attack_target(playable_enemy_pokemon, playable_player_pokemon.special_attack)
-                        if random.randint(0,1) == 0:
+                        if random.randint(0, 1) == 0:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
                         else:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
 
-
+                    # Check if the player or enemy is defeated
                     if playable_enemy_pokemon.stats.get('HP') <= 0:
                         player_level += 1  # Increase player level
 
@@ -129,16 +137,6 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                             pokemon_list[enemy_id].get('apiResistances')
                         )
                         continue
-
-                   
-                        """# Update evolution if level allows it
-                        evolution_stage = (player_level // 2)  # Determine evolution stage
-                        evolved_pokemon = next((p for p in pokemon_choices if p['id'] == playable_player_pokemon.id + evolution_stage), None)
-                        if evolved_pokemon:
-                            print(f"🎉 {player_pokemon['name']} evolved into {evolved_pokemon['name']}!")
-                            playable_player_pokemon = evolved_pokemon  # Update to evolved Pokémon
-
-                        break  # Exit loop to load next enemy"""
 
                     if playable_player_pokemon.stats.get("HP") <= 0:
                         print(f"{playable_player_pokemon.name} is defeated! 💥")
