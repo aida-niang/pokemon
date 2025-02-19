@@ -259,9 +259,29 @@
                     "pokedexIdd": 1
                 },
                 "apiResistancesWithAbilities": []
+            },
+            {
+                "name": "Doduo",
+                "id": 84
+            },
+            {
+                "name": "Magicarpe",
+                "id": 129
+            },
+            {
+                "name": "Otaria",
+                "id": 86
+            },
+            {
+                "name": "Lippoutou",
+                "id": 124
+            },
+            {
+                "name": "Caninos",
+                "id": 58
             }
         ],
-        "level": 11
+        "level": 16
     },
     "da": {
         "pokemon_won": [

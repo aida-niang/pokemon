@@ -107,14 +107,24 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                         # Reset player health after winning
                         playable_player_pokemon.stats["HP"] = playable_player_pokemon.max_hp
 
-                        pokemon_list = fetch_pokemon()
-                        enemy_id = random.randint(0, 150)
-                        playable_enemy_pokemon = Pokemon(pokemon_list[enemy_id].get('id'), pokemon_list[enemy_id].get('name'), pokemon_list[enemy_id].get('sprite'), pokemon_list[enemy_id].get('stats'), pokemon_list[enemy_id].get('apiTypes'), pokemon_list[enemy_id].get('apiResistances'))
-                        continue
-                        """# Save game progress
+                        # Save game progress (this should happen before starting a new battle)
                         save_game(player_name, playable_enemy_pokemon.name, player_level)
 
-                        # Update evolution if level allows it
+                        # Fetch a new enemy for the next battle
+                        pokemon_list = fetch_pokemon()
+                        enemy_id = random.randint(0, 150)
+                        playable_enemy_pokemon = Pokemon(
+                            pokemon_list[enemy_id].get('id'),
+                            pokemon_list[enemy_id].get('name'),
+                            pokemon_list[enemy_id].get('sprite'),
+                            pokemon_list[enemy_id].get('stats'),
+                            pokemon_list[enemy_id].get('apiTypes'),
+                            pokemon_list[enemy_id].get('apiResistances')
+                        )
+                        continue
+
+                   
+                        """# Update evolution if level allows it
                         evolution_stage = (player_level // 2)  # Determine evolution stage
                         evolved_pokemon = next((p for p in pokemon_choices if p['id'] == playable_player_pokemon.id + evolution_stage), None)
                         if evolved_pokemon:

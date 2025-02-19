@@ -1,6 +1,7 @@
 #save manager 
 
 import json
+from utils import fetch_pokemon
 
 # Load save data from file
 def load_save():
@@ -19,7 +20,10 @@ def save_game(player_name, defeated_pokemon, player_level):
     if isinstance(defeated_pokemon, dict):
         pokemon_to_save = defeated_pokemon
     else:
-        pokemon_to_save = {"name": defeated_pokemon, "id": 999}  # Replace 999 with the correct Pokémon ID
+        # Assume we can fetch the ID from the pokemon list
+        # Replace this with the actual way of getting the Pokémon ID
+        pokemon_id = get_pokemon_id_by_name(defeated_pokemon)
+        pokemon_to_save = {"name": defeated_pokemon, "id": pokemon_id}
 
     # If player data exists, update it, otherwise, create a new entry
     if player_name in saved_data:
@@ -38,6 +42,16 @@ def save_game(player_name, defeated_pokemon, player_level):
     # Write the updated data back to the save file
     with open("save_data.json", "w") as file:
         json.dump(saved_data, file, indent=4)
+
+# Example function to fetch Pokémon ID by name (you need to implement it)
+def get_pokemon_id_by_name(name):
+    # Fetch from your Pokémon list or API
+    # This is just a placeholder implementation
+    pokemon_list = fetch_pokemon()  # Assume this fetches all Pokémon data
+    for pokemon in pokemon_list:
+        if pokemon['name'].lower() == name.lower():
+            return pokemon['id']
+    return None  # Return None if no matching Pokémon is found
 
 # Get the player's available Pokémon (initial + won Pokémon)
 def get_player_pokemon(player_name, pokemon_choices):
