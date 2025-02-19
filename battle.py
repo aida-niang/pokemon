@@ -94,12 +94,19 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                     elif event.key == pygame.K_DOWN:
                         player_y += speed
                     elif event.key == pygame.K_1:  # Attack action
-                        #damage = random.randint(15, 25)  # Random attack damage
-                        #enemy_health -= damage
-                        #print(f"{player_pokemon['name']} attacked! Enemy health: {enemy_health}")
                         playable_player_pokemon.attack_target(playable_enemy_pokemon, playable_player_pokemon.normal_attack)
+                        if random.randint(0,1) == 0:
+                            playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
+                        else:
+                            playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
+
                     elif event.key == pygame.K_2:  # Attack action
                         playable_player_pokemon.attack_target(playable_enemy_pokemon, playable_player_pokemon.special_attack)
+                        if random.randint(0,1) == 0:
+                            playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
+                        else:
+                            playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
+
 
                     if playable_enemy_pokemon.stats.get('HP') <= 0:
                         player_level += 1  # Increase player level
@@ -132,11 +139,6 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                             playable_player_pokemon = evolved_pokemon  # Update to evolved Pokémon
 
                         break  # Exit loop to load next enemy"""
-                        
-                    if random.randint(0,1) == 0:
-                        playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
-                    else:
-                        playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
 
                     if playable_player_pokemon.stats.get("HP") <= 0:
                         print(f"{playable_player_pokemon.name} is defeated! 💥")
