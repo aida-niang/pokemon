@@ -31,9 +31,9 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
     player_y = HEIGHT // 2 - 75
     speed = 10  # Player movement speed (not used for the Pokémon)
 
-    # Initial fire object position
-    fire_object_x = WIDTH // 2 - 50
-    fire_object_y = HEIGHT // 2 - 50
+    # Initial fire object position (starts from player Pokémon)
+    fire_object_x = player_x + 50  # Starting from the player
+    fire_object_y = player_y + 50
 
     running = True
     while running:
@@ -82,6 +82,21 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
             draw_text(f"Level: {player_level}", WIDTH // 2, HEIGHT - 20)
             draw_text("Arrow Keys: Move Fire | 1: Attaque normale | 2: Attaque spéciale", WIDTH // 2, HEIGHT // 2 - 50)
 
+            # Check for collision with the enemy
+            if fire_object_x in range(3 * WIDTH // 4 - 75 + enemy_offset_x, 3 * WIDTH // 4 - 75 + enemy_offset_x + 150) and \
+               fire_object_y in range(HEIGHT // 2 - 75 + enemy_offset_y, HEIGHT // 2 - 75 + enemy_offset_y + 150):
+                # The fire touches the enemy, reduce enemy HP
+                playable_enemy_pokemon.stats["HP"] -= 10  # Adjust damage value as needed
+                if playable_enemy_pokemon.stats["HP"] <= 0:
+                    print(f"{playable_enemy_pokemon.name} is defeated!")
+                    draw_text(f"{playable_enemy_pokemon.name.capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
+                    pygame.display.flip()
+                    pygame.time.delay(2000)
+                    # Reset fire and go to the next enemy
+                    fire_object_x = player_x + 50
+                    fire_object_y = player_y + 50
+                    break  # Exit to handle the next enemy
+
             pygame.display.flip()
 
             for event in pygame.event.get():
@@ -89,7 +104,6 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                     running = False
                     return None  # Exit the function
                 elif event.type == pygame.KEYDOWN:
-                    # Do not move the player Pokémon
                     # Handle the movement of the fire object with arrow keys
                     if event.key == pygame.K_LEFT:  # Move fire object left
                         fire_object_x -= speed
@@ -114,36 +128,6 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
                         else:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
-
-                    # Check if the player or enemy is defeated
-                    if playable_enemy_pokemon.stats.get('HP') <= 0:
-                        player_level += 1  # Increase player level
-
-                        # Reset player health after winning
-                        playable_player_pokemon.stats["HP"] = playable_player_pokemon.max_hp
-
-                        # Save game progress (this should happen before starting a new battle)
-                        save_game(player_name, playable_enemy_pokemon.name, player_level)
-
-                        # Fetch a new enemy for the next battle
-                        pokemon_list = fetch_pokemon()
-                        enemy_id = random.randint(0, 150)
-                        playable_enemy_pokemon = Pokemon(
-                            pokemon_list[enemy_id].get('id'),
-                            pokemon_list[enemy_id].get('name'),
-                            pokemon_list[enemy_id].get('sprite'),
-                            pokemon_list[enemy_id].get('stats'),
-                            pokemon_list[enemy_id].get('apiTypes'),
-                            pokemon_list[enemy_id].get('apiResistances')
-                        )
-                        continue
-
-                    if playable_player_pokemon.stats.get("HP") <= 0:
-                        print(f"{playable_player_pokemon.name} is defeated! 💥")
-                        draw_text(f"{playable_player_pokemon.name.capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
-                        pygame.display.flip()
-                        pygame.time.delay(2000)
-                        return playable_enemy_pokemon  # Enemy wins
 
             pygame.time.delay(50)  # Delay for smoother movement
 
