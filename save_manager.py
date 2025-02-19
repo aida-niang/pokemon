@@ -2,7 +2,6 @@
 
 import json
 from utils import fetch_pokemon
-
 # Load save data from file
 def load_save():
     try:

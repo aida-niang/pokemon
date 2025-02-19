@@ -1362,5 +1362,26 @@
             }
         ],
         "level": 2
+    },
+    "Akram": {
+        "pokemon_won": [
+            {
+                "name": "Goupix",
+                "id": 37
+            },
+            {
+                "name": "Pikachu",
+                "id": 25
+            },
+            {
+                "name": "Voltorbe",
+                "id": 100
+            },
+            {
+                "name": "Tentacool",
+                "id": 72
+            }
+        ],
+        "level": 5
     }
 }
