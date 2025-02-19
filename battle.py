@@ -87,6 +87,11 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                fire_object_y in range(HEIGHT // 2 - 75 + enemy_offset_y, HEIGHT // 2 - 75 + enemy_offset_y + 150):
                 # The fire touches the enemy, reduce enemy HP
                 playable_enemy_pokemon.stats["HP"] -= 10  # Adjust damage value as needed
+
+                # Reset the fire position
+                fire_object_x = player_x + 50
+                fire_object_y = player_y + 50
+
                 if playable_enemy_pokemon.stats["HP"] <= 0:
                     print(f"{playable_enemy_pokemon.name} is defeated!")
                     draw_text(f"{playable_enemy_pokemon.name.capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
