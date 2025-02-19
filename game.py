@@ -9,6 +9,7 @@ from menu import Menu
 from pokedex import pokedex
 from players import get_player_name  
 from save_manager import load_save, save_game, get_player_pokemon,get_player_level
+from pokemon import Pokemon
 
 pygame.init()
 
@@ -29,6 +30,7 @@ def select_pokemon(player_name, pokemon_choices):
 
         # Show current Pokémon selection
         pokemon = available_pokemon[current_index]
+        print(pokemon)
         sprite = load_sprite(pokemon)
 
         if sprite:
@@ -92,9 +94,20 @@ def start_game():
             elif option == 0:
                 available_pokemon = get_player_pokemon(player_name, pokemon_choices)
                 player_pokemon = select_pokemon(player_name, pokemon_choices)
+                pokemon_list = fetch_pokemon()
+                #temp_pokemon = Pokemon(pokemon_list[5].get('id'), pokemon_list[5].get('name'), pokemon_list[5].get('sprite'), pokemon_list[5].get('stats'), pokemon_list[5].get('apiTypes'), pokemon_list[5].get('apiResistances'))
+
+                for pokemon in pokemon_list: 
+                    if pokemon.get('id') == player_pokemon.get('id'):
+                        playable_player_pokemon = Pokemon(pokemon.get('id'), pokemon.get('name'), pokemon.get('sprite'), pokemon.get('stats'), pokemon.get('apiTypes'), pokemon.get('apiResistances'))
+                        print(playable_player_pokemon)
+                        #playable_player_pokemon.attack_target(temp_pokemon, playable_player_pokemon.special_attack)
 
                 # Create a list of enemies (excluding player's Pokémon)
                 enemy_pokemon_list = [p for p in pokemon_list if p["id"] != player_pokemon["id"]]
+                enemy_id = random.randint(0, 150)
+                playable_enemy_pokemon = Pokemon(pokemon_list[enemy_id].get('id'), pokemon_list[enemy_id].get('name'), pokemon_list[enemy_id].get('sprite'), pokemon_list[enemy_id].get('stats'), pokemon_list[enemy_id].get('apiTypes'), pokemon_list[enemy_id].get('apiResistances'))
+
 
                 while True:  # Keep battling until player loses or runs out of enemies
                     if not enemy_pokemon_list:
@@ -105,13 +118,13 @@ def start_game():
                         break
 
                     enemy_pokemon = enemy_pokemon_list.pop(0)  # Get next enemy
-                    winner = battle(player_pokemon, [enemy_pokemon], player_name)  # Pass list with one enemy
+                    winner = battle(player_pokemon, [enemy_pokemon], player_name, playable_player_pokemon, playable_enemy_pokemon)  # Pass list with one enemy
 
-                    if winner == player_pokemon:
-                        print(f"🎉 {player_name} won with {player_pokemon['name']}!")
+                    if winner == playable_player_pokemon:
+                        print(f"🎉 {player_name} won with {playable_player_pokemon.name}!")
                         save_game(player_name, enemy_pokemon, player_level)  # Save the defeated Pokémon
                     else:
-                        print(f"💥 {player_name} lost with {player_pokemon['name']}!")
+                        print(f"💥 {player_name} lost with {playable_player_pokemon.name}!")
                         break  # Stop the loop when the player loses
 
     pygame.quit()

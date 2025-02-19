@@ -44,8 +44,13 @@ def load_pokemon():
 
 # Load sprite (URL first, fallback to local file)
 def load_sprite(pokemon):
-    sprite_url = pokemon.get("sprite")
-    local_sprite_path = os.path.join(SPRITE_DIR, f"{pokemon['id']}.png")
+    if type(pokemon) is dict:
+        sprite_url = pokemon.get("sprite")
+        local_sprite_path = os.path.join(SPRITE_DIR, f"{pokemon['id']}.png")
+
+    else:
+        sprite_url = pokemon.sprite_url
+        local_sprite_path = os.path.join(SPRITE_DIR, f"{pokemon.id}.png")
 
     if sprite_url and sprite_url.startswith("http"):
         try:
