@@ -6,7 +6,8 @@ from save_manager import save_game, get_player_level
 from pokemon import Pokemon
 
 # Load the background image
-background = pygame.image.load('assets/images/background/battle.webp')
+background = pygame.image.load('assets/images/background/map.jpg')
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
 # Load the sound
 sound_Battle = pygame.mixer.Sound('assets/sounds/Battle.wav')

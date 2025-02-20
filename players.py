@@ -13,24 +13,22 @@ def get_player_name():
     pygame.init()
     pygame.display.set_caption("Enter Your Name")
     
-    input_box = pygame.Rect(500, 100, 400, 40)
+    input_box = pygame.Rect(500, 100, 400, 50)
     color_inactive = pygame.Color('lightskyblue3')
     color_active = pygame.Color('dodgerblue2')
     color = color_inactive
     active = False
     text = ""
 
-    font = pygame.font.Font(None, 36)
-
     while True:
         screen.blit(background, (0, 0))
         
         label = font.render("Enter your name :", True, BLACK)
-        screen.blit(label, (600, 50))
+        screen.blit(label, (550, 50))
 
-        pygame.draw.rect(screen, color, input_box, 2)
+        pygame.draw.rect(screen, color, input_box, 5)
         name_surface = font.render(text, True, BLACK)
-        screen.blit(name_surface, (input_box.x + 5, input_box.y + 5))
+        screen.blit(name_surface, (input_box.x + 10, input_box.y))
 
         pygame.display.flip()
 

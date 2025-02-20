@@ -4,10 +4,14 @@ import pygame
 from settings import *
 from utils import fetch_pokemon, load_sprite
 
+#Load background 
+background = pygame.image.load("assets/images/background/poke.jpg")
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+
 def display_pokemon_info(pokemon):
     running = True
     while running:
-        screen.fill(WHITE)
+        screen.blit(background, (0, 0))
         draw_text("Pokémon Info", WIDTH // 2, 50)
 
         sprite = load_sprite(pokemon)
@@ -35,7 +39,7 @@ def pokedex():
     running = True
 
     while running:
-        screen.fill(WHITE)
+        screen.blit(background, (0, 0))
         draw_text("Pokédex", WIDTH // 2, 50)
 
         if pokemon_list:

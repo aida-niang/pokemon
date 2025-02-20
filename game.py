@@ -19,6 +19,8 @@ start_screen_bg = pygame.image.load("assets/images/background/loading.jpg")
 start_screen_bg = pygame.transform.scale(start_screen_bg, (WIDTH, HEIGHT))
 name_bg = pygame.image.load('assets/images/background/name.jpg')
 name_bg = pygame.transform.scale(start_screen_bg, (WIDTH, HEIGHT))
+select_bg = pygame.image.load('assets/images/background/choose.jpg')
+select_bg= pygame.transform.scale(select_bg, (WIDTH, HEIGHT))
 
 #load GIF frames
 loading_frames = load_gif_frames("assets/images/gif/loading")
@@ -73,7 +75,7 @@ def select_pokemon(player_name, pokemon_choices):
     available_pokemon = get_player_pokemon(player_name, pokemon_choices)
 
     while running:
-        screen.blit(name_bg, (0, 0))
+        screen.blit(select_bg, (0, 0))
         draw_text("Select Your Pokémon", WIDTH // 2, 50)
 
         # Show current Pokémon selection
@@ -82,7 +84,7 @@ def select_pokemon(player_name, pokemon_choices):
         sprite = load_sprite(pokemon)
 
         if sprite:
-            sprite = pygame.transform.scale(sprite, (200, 200))
+            sprite = pygame.transform.scale(sprite, (300, 300))
             screen.blit(sprite, (WIDTH // 2 - 100, HEIGHT // 2 - 100))
 
         # Display Pokémon info
@@ -103,7 +105,7 @@ def select_pokemon(player_name, pokemon_choices):
                     player_pokemon = pokemon  # Set the selected Pokémon as player's Pokémon
                     running = False
                 elif event.key == pygame.K_ESCAPE:
-                    running = False
+                   running = False
 
     return player_pokemon
 
