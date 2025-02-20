@@ -279,9 +279,13 @@
             {
                 "name": "Caninos",
                 "id": 58
+            },
+            {
+                "name": "M. Mime",
+                "id": 122
             }
         ],
-        "level": 16
+        "level": 17
     },
     "da": {
         "pokemon_won": [
