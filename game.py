@@ -25,6 +25,9 @@ loading_frames = load_gif_frames("assets/images/gif/loading")
 
 #load sounds :
 sound_loading = pygame.mixer.Sound('assets/sounds/loading.mp3')
+sound_Battle = pygame.mixer.Sound('assets/sounds/battle.wav')
+sound_Attack = pygame.mixer.Sound('assets/sounds/attack.wav')
+sound_Victory = pygame.mixer.Sound('assets/sounds/victory.wav')
 
 sound_loading.play()
 def loading_screen():
@@ -165,9 +168,13 @@ def start_game():
 
                     if winner == playable_player_pokemon:
                         print(f"🎉 {player_name} won with {playable_player_pokemon.name}!")
+                        sound_Battle.stop()
+                        sound_Victory.play()
                         save_game(player_name, enemy_pokemon, player_level)  # Save the defeated Pokémon
                     else:
                         print(f"💥 {player_name} lost with {playable_player_pokemon.name}!")
+                        sound_Victory.stop()
+                        sound_Battle.stop()
                         break  # Stop the loop when the player loses
 
     pygame.quit()

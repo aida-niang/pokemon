@@ -8,6 +8,13 @@ from pokemon import Pokemon
 # Load the background image
 background = pygame.image.load('assets/images/background/battle.webp')
 
+# Load the sound
+sound_Battle = pygame.mixer.Sound('assets/sounds/Battle.wav')
+sound_Attack = pygame.mixer.Sound('assets/sounds/attack.wav')
+sound_Victory = pygame.mixer.Sound('assets/sounds/Victory.wav')
+sound_Lost = pygame.mixer.Sound('assets/sounds/you_lost.wav')
+
+
 def draw_health_bar(x, y, health, max_health):
     """Draws a health bar for Pokémon."""
     bar_width = 150
@@ -20,7 +27,7 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
     """Simulates a Pokémon battle with movement and multiple enemies."""
     enemy_index = 0  # Track the current enemy Pokémon
     player_level = get_player_level(player_name)  # Retrieve the player's current level
-
+    sound_Battle.play()
     # Player Pokémon initial position
     player_x = WIDTH // 4 - 75
     player_y = HEIGHT // 2 - 75
@@ -94,6 +101,8 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                     elif event.key == pygame.K_DOWN:
                         player_y += speed
                     elif event.key == pygame.K_1:  # Attack action
+                        sound_Battle.set_volume(0.3)
+                        sound_Attack.play()
                         playable_player_pokemon.attack_target(playable_enemy_pokemon, playable_player_pokemon.normal_attack)
                         if random.randint(0,1) == 0:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
@@ -141,6 +150,8 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                         break  # Exit loop to load next enemy"""
 
                     if playable_player_pokemon.stats.get("HP") <= 0:
+                        sound_Battle.stop()
+                        sound_Lost.play()
                         print(f"{playable_player_pokemon.name} is defeated! 💥")
                         draw_text(f"{playable_player_pokemon.name.capitalize()} is defeated!", WIDTH // 2, HEIGHT // 2)
                         pygame.display.flip()
