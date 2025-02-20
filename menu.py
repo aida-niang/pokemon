@@ -3,7 +3,7 @@ from settings import *
 from pokedex import pokedex
 from save_manager import load_save
 
-background = pygame.image.load('assets/images/background/bg1.jpg')
+background = pygame.image.load('assets/images/background/menu_bis.jpg')
 
 class Menu:
     def __init__(self, player_name):
