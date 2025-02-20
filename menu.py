@@ -1,16 +1,18 @@
 import pygame
 from settings import *
 from pokedex import pokedex
+from save_manager import load_save
 
 background = pygame.image.load('assets/images/background/bg1.jpg')
 
 class Menu:
-    def __init__(self):
+    def __init__(self, player_name):
         self.options = [
             "Launch the game",
             "View Pokédex",
             "Quit"
         ]
+        self.player_name = player_name 
         self.button_rects = []
 
     def display_menu(self):
@@ -41,7 +43,7 @@ class Menu:
             for i, text_rect in enumerate(self.button_rects):
                 if text_rect.collidepoint(mouse_pos):
                     if i == 1:  # View Pokédex
-                        pokedex()
+                        pokedex(self.player_name)
                         return None  # Prevent immediate return to menu
                     return i
         return None

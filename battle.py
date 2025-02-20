@@ -98,13 +98,16 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                         if random.randint(0,1) == 0:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
                         else:
+                            playable_enemy_pokemon.use_special_attack()
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
 
                     elif event.key == pygame.K_2:  # Attack action
+                        playable_player_pokemon.use_special_attack()
                         playable_player_pokemon.attack_target(playable_enemy_pokemon, playable_player_pokemon.special_attack)
                         if random.randint(0,1) == 0:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
                         else:
+                            playable_enemy_pokemon.use_special_attack()
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
 
 
