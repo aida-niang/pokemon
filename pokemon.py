@@ -9,16 +9,17 @@ class Pokemon:
         self.sprite_url = sprite_url
         self.stats = stats
         self.max_hp = stats.get("HP")
-        self.types = types  
+        self.types = [t["name"] for t in types] if types else []  
         self.resistances = resistances
         self.evolution = evolution  # Liste des évolutions possibles
+
         self.normal_attack = {"name" : "Attaque normale",
            "strenght" : 20,
            "type" : "Normal",
            "accuracy" : 80}
         self.special_attack = {"name" : "Attaque spéciale",
            "strenght" : 35,
-           "type" : "Plante",
+            "type": random.choice(self.types) if self.types else "Normal",
            "accuracy" : 60}
         self.image = None  # Sprite de l'image, à charger
         self.xp = 0
@@ -42,12 +43,6 @@ class Pokemon:
         """ Gère l'évolution du niveau """
         self.level += 1
         self.xp = 0  # Réinitialisation de l'XP après un niveau
-
-    def launch_attack(self, target, attack):
-        attack = {"name" : "Attaque normale",
-           "strenght" : 20,
-           "type" : "Normal",
-           "accuracy" : 80}
         
     def attack_target(self, target, attack):
         if random.randint(1, 100) > attack['accuracy']:
@@ -74,7 +69,10 @@ class Pokemon:
         print(f"HP restants de {target.name} : {target.stats['HP']}")
         if target.stats['HP'] == 0:
             print(target.name, "est K.O")
-
+            
+    def use_special_attack(self):
+        if self.types:
+            self.special_attack["type"] = random.choice(self.types)  # Type aléatoire à chaque utilisation
 
 def load_pokemon_from_json(file_path):
     """ Charge les Pokémon depuis un fichier JSON """

@@ -1,6 +1,7 @@
 import pygame
 from settings import *
 from pokedex import pokedex
+from save_manager import load_save
 
 # Load background and icons
 background = pygame.image.load('assets/images/background/menu_bis.jpg')
@@ -10,12 +11,13 @@ pokedex_icon = pygame.image.load('assets/images/icons/pokedex.png')
 quit_icon = pygame.image.load('assets/images/icons/quit.png')
 
 class Menu:
-    def __init__(self):
+    def __init__(self, player_name):
         self.options = [
             play_icon,
             pokedex_icon,
             quit_icon
         ]
+        self.player_name = player_name 
         self.button_rects = []
         self.positions = [
             (500, 400),  # Play button position
@@ -41,7 +43,7 @@ class Menu:
             for i, icon_rect in enumerate(self.button_rects):
                 if icon_rect.collidepoint(mouse_pos):
                     if i == 1:  # View Pokédex
-                        pokedex()
+                        pokedex(self.player_name)
                         return None  # Prevent immediate return to menu
                     return i
         return None

@@ -1387,9 +1387,29 @@
                     "pokedexIdd": 1
                 },
                 "apiResistancesWithAbilities": []
+            },
+            {
+                "name": "Rapasdepic",
+                "id": 22
+            },
+            {
+                "name": "Nosferapti",
+                "id": 41
+            },
+            {
+                "name": "Pikachu",
+                "id": 25
+            },
+            {
+                "name": "Lokhlass",
+                "id": 131
             }
         ],
-        "level": 2
+        "level": 8,
+        "encountered_pokemon": {
+            "2": 1,
+            "1": 2
+        }
     },
     "Akram": {
         "pokemon_won": [
@@ -1408,17 +1428,25 @@
             {
                 "name": "Tentacool",
                 "id": 72
-            }
-        ],
-        "level": 5
-    },
-    "AIDA": {
-        "pokemon_won": [
+            },
             {
-                "name": "Taupiqueur",
-                "id": 50
+                "name": "Herbizarre",
+                "id": 2
             }
         ],
-        "level": 1
+        "level": 6,
+        "encountered_pokemon": {
+            "1": 1
+        }
+    },
+    "TestSave": {
+        "pokemon_won": [],
+        "level": 1,
+        "encountered_pokemon": {}
+    },
+    "TestNewSave": {
+        "pokemon_won": [],
+        "level": 1,
+        "encountered_pokemon": {}
     }
 }

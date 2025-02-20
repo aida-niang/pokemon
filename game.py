@@ -8,7 +8,7 @@ from battle import battle
 from menu import Menu
 from pokedex import pokedex
 from players import get_player_name  
-from save_manager import load_save, save_game, get_player_pokemon,get_player_level
+from save_manager import load_save, save_game, get_player_pokemon,get_player_level, update_pokedex_encounter
 from pokemon import Pokemon
 from gif import load_gif_frames
 
@@ -116,12 +116,12 @@ def start_game():
     player_level = get_player_level(player_name)  
 
     # Load existing save if available
-    saved_data = load_save()
+    saved_data = load_save(player_name)
     if player_name in saved_data:
         saved_pokemon_list = saved_data[player_name].get("pokemon_won", [])
         if saved_pokemon_list:
             saved_pokemon = saved_pokemon_list[-1]  # Get the last Pokémon the player won
-            print(f"🎉 Welcome back, {player_name}! Your saved Pokémon: {saved_pokemon}")
+            print(f"✅ Chargement du profil de {player_name} terminé !")
             if isinstance(saved_pokemon, dict):
                 print(f"Saved Pokémon Name: {saved_pokemon['name']}")
             else:
@@ -129,7 +129,7 @@ def start_game():
         else:
             saved_pokemon = None  # No saved Pokémon
   
-    menu = Menu()
+    menu = Menu(player_name)
     option = None
 
     while option != 2:
@@ -151,14 +151,13 @@ def start_game():
                 for pokemon in pokemon_list: 
                     if pokemon.get('id') == player_pokemon.get('id'):
                         playable_player_pokemon = Pokemon(pokemon.get('id'), pokemon.get('name'), pokemon.get('sprite'), pokemon.get('stats'), pokemon.get('apiTypes'), pokemon.get('apiResistances'))
-                        print(playable_player_pokemon)
-                        #playable_player_pokemon.attack_target(temp_pokemon, playable_player_pokemon.special_attack)
+                        #print(playable_player_pokemon)
 
                 # Create a list of enemies (excluding player's Pokémon)
                 enemy_pokemon_list = [p for p in pokemon_list if p["id"] != player_pokemon["id"]]
-                enemy_id = random.randint(0, 150)
+                #enemy_id = 0 Brute force pour avoir Bulbizarre
+                enemy_id = random.randint(1,150)
                 playable_enemy_pokemon = Pokemon(pokemon_list[enemy_id].get('id'), pokemon_list[enemy_id].get('name'), pokemon_list[enemy_id].get('sprite'), pokemon_list[enemy_id].get('stats'), pokemon_list[enemy_id].get('apiTypes'), pokemon_list[enemy_id].get('apiResistances'))
-
 
                 while True:  # Keep battling until player loses or runs out of enemies
                     if not enemy_pokemon_list:
@@ -169,6 +168,7 @@ def start_game():
                         break
 
                     enemy_pokemon = enemy_pokemon_list.pop(0)  # Get next enemy
+                    update_pokedex_encounter(player_name, enemy_pokemon["id"])
                     winner = battle(player_pokemon, [enemy_pokemon], player_name, playable_player_pokemon, playable_enemy_pokemon)  # Pass list with one enemy
 
                     if winner == playable_player_pokemon:
@@ -176,6 +176,8 @@ def start_game():
                         sound_Battle.stop()
                         sound_Victory.play()
                         save_game(player_name, enemy_pokemon, player_level)  # Save the defeated Pokémon
+                        save_game(player_name, enemy_pokemon["name"], player_level)  # Save the defeated Pokémon
+
                     else:
                         print(f"💥 {player_name} lost with {playable_player_pokemon.name}!")
                         break  # Stop the loop when the player loses
