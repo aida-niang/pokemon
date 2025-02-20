@@ -1227,9 +1227,33 @@
                 ],
                 "apiPreEvolution": "none",
                 "apiResistancesWithAbilities": []
+            },
+            {
+                "name": "F\u00e9rosinge",
+                "id": 56
+            },
+            {
+                "name": "Nidoran\u2640",
+                "id": 29
+            },
+            {
+                "name": "Pikachu",
+                "id": 25
+            },
+            {
+                "name": "M\u00e9lof\u00e9e",
+                "id": 35
+            },
+            {
+                "name": "M\u00e9tamorph",
+                "id": 132
+            },
+            {
+                "name": "Ossatueur",
+                "id": 105
             }
         ],
-        "level": 5
+        "level": 11
     },
     "Margaux": {
         "pokemon_won": [

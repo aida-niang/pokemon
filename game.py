@@ -14,7 +14,11 @@ from pokemon import Pokemon
 pygame.init()
 
 background = pygame.image.load('assets/images/background/bg1.jpg')
-  
+sound_Battle = pygame.mixer.Sound('assets/sounds/battle.wav')
+sound_Attack = pygame.mixer.Sound('assets/sounds/attack.wav')
+sound_Victory = pygame.mixer.Sound('assets/sounds/victory.wav')
+
+
 def select_pokemon(player_name, pokemon_choices):
     """Handles Pokémon selection."""
     global player_pokemon
@@ -122,9 +126,13 @@ def start_game():
 
                     if winner == playable_player_pokemon:
                         print(f"🎉 {player_name} won with {playable_player_pokemon.name}!")
+                        sound_Battle.stop()
+                        sound_Victory.play()
                         save_game(player_name, enemy_pokemon, player_level)  # Save the defeated Pokémon
                     else:
                         print(f"💥 {player_name} lost with {playable_player_pokemon.name}!")
+                        sound_Victory.stop()
+                        sound_Battle.stop()
                         break  # Stop the loop when the player loses
 
     pygame.quit()
