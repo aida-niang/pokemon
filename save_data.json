@@ -283,9 +283,114 @@
             {
                 "name": "M. Mime",
                 "id": 122
+            },
+            {
+                "name": "Empiflor",
+                "id": 71
+            },
+            {
+                "name": "\u00c9lektek",
+                "id": 125
+            },
+            {
+                "name": "Kokiyas",
+                "id": 90
+            },
+            {
+                "name": "Aspicot",
+                "id": 13
+            },
+            {
+                "name": "Lamantine",
+                "id": 87
+            },
+            {
+                "name": "Grolem",
+                "id": 76
+            },
+            {
+                "name": "Osselait",
+                "id": 104
+            },
+            {
+                "name": "Rhinocorne",
+                "id": 111
+            },
+            {
+                "name": "Amonita",
+                "id": 138
+            },
+            {
+                "name": "Kadabra",
+                "id": 64
+            },
+            {
+                "name": "Reptincel",
+                "id": 5
+            },
+            {
+                "name": "Staross",
+                "id": 121
+            },
+            {
+                "name": "Chrysacier",
+                "id": 11
+            },
+            {
+                "name": "Porygon",
+                "id": 137
+            },
+            {
+                "name": "Ectoplasma",
+                "id": 94
+            },
+            {
+                "name": "Kabutops",
+                "id": 141
+            },
+            {
+                "name": "Leveinard",
+                "id": 113
+            },
+            {
+                "name": "Dardargnan",
+                "id": 15
+            },
+            {
+                "name": "Grodoudou",
+                "id": 40
+            },
+            {
+                "name": "\u00c9voli",
+                "id": 133
+            },
+            {
+                "name": "Ptitard",
+                "id": 60
+            },
+            {
+                "name": "M\u00e9tamorph",
+                "id": 132
+            },
+            {
+                "name": "Boustiflor",
+                "id": 70
+            },
+            {
+                "name": "Ramoloss",
+                "id": 79
+            },
+            {
+                "name": "Nidorino",
+                "id": 33
             }
         ],
-        "level": 17
+        "level": 44,
+        "encountered_pokemon": {
+            "1": 28,
+            "2": 18,
+            "30": 1
+        }
     },
     "da": {
         "pokemon_won": [
@@ -1445,6 +1550,11 @@
         "encountered_pokemon": {}
     },
     "TestNewSave": {
+        "pokemon_won": [],
+        "level": 1,
+        "encountered_pokemon": {}
+    },
+    "fgs": {
         "pokemon_won": [],
         "level": 1,
         "encountered_pokemon": {}

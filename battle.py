@@ -6,8 +6,8 @@ from save_manager import save_game, get_player_level
 from pokemon import Pokemon
 
 # Load the background image
-background = pygame.image.load('assets/images/background/map.jpg')
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+battle_bg = pygame.image.load('assets/images/background/battle.webp')
+battle_bg = pygame.transform.scale(battle_bg, (WIDTH, HEIGHT))
 
 # Load the sound
 sound_Battle = pygame.mixer.Sound('assets/sounds/Battle.wav')
@@ -44,22 +44,14 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
             pygame.time.delay(2000)
             break  # Exit battle loop
 
-        """# Check for evolution every 2 levels
-        evolution_stage = (player_level // 2)  # Determine evolution stage
-        evolved_pokemon = next((p for p in pokemon_choices if p['id'] == player_pokemon['id'] + evolution_stage), None)
-        if evolved_pokemon:
-            print(f"🎉 {player_pokemon['name']} evolved into {evolved_pokemon['name']}!")
-            player_pokemon = evolved_pokemon  # Update to evolved Pokémon"""
-
-
         # Set random positions for player and enemy Pokémon to prevent overlap
         player_offset_x = random.randint(-50, 50)
         player_offset_y = random.randint(-50, 50)
         enemy_offset_x = random.randint(-50, 50)
         enemy_offset_y = random.randint(-50, 50)
 
-        while playable_enemy_pokemon.stats.get("HP") > 0 and playable_player_pokemon.stats.get("HP") > 0:
-            screen.fill(WHITE)  # Clear screen
+        while playable_enemy_pokemon.stats['HP'] > 0 and playable_player_pokemon.stats['HP'] > 0:
+            screen.blit(battle_bg, (0, 0))
 
             # Load player and enemy sprites
             player_sprite = load_sprite(playable_player_pokemon)
@@ -79,12 +71,12 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
             draw_text(playable_enemy_pokemon.name.capitalize(), 3 * WIDTH // 4, HEIGHT - 100)
 
             # Draw health bars
-            draw_health_bar(WIDTH // 4 - 75, HEIGHT - 130, playable_player_pokemon.stats.get("HP"), playable_player_pokemon.max_hp)
-            draw_health_bar(3 * WIDTH // 4 - 75, HEIGHT - 130, playable_enemy_pokemon.stats.get("HP"), playable_enemy_pokemon.max_hp)
+            draw_health_bar(WIDTH // 4 - 75, HEIGHT - 130, playable_player_pokemon.stats['HP'], playable_player_pokemon.max_hp)
+            draw_health_bar(3 * WIDTH // 4 - 75, HEIGHT - 130, playable_enemy_pokemon.stats['HP'], playable_enemy_pokemon.max_hp)
 
             # Display player level and controls
             draw_text(f"Level: {player_level}", WIDTH // 2, HEIGHT - 20)
-            draw_text("Arrow Keys: Move | 1: Attaque normale | 2: Attaque spéciale", WIDTH // 2, HEIGHT - 50)
+            draw_text("Arrow Keys: Move | 1: Normal Attack | 2: Special Attack", WIDTH // 2, HEIGHT - 50)
 
             pygame.display.flip()
 
@@ -93,39 +85,31 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                     running = False
                     return None  # Exit the function
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        player_x -= speed
-                    elif event.key == pygame.K_RIGHT:
-                        player_x += speed
-                    elif event.key == pygame.K_UP:
-                        player_y -= speed
-                    elif event.key == pygame.K_DOWN:
-                        player_y += speed
-                    elif event.key == pygame.K_1:  # Attack action
-                        sound_Battle.set_volume(0.3)
+                    if event.key == pygame.K_1:  # Normal attack
                         sound_Attack.play()
                         playable_player_pokemon.attack_target(playable_enemy_pokemon, playable_player_pokemon.normal_attack)
-                        if random.randint(0,1) == 0:
+                        if random.randint(0, 1) == 0:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
                         else:
                             playable_enemy_pokemon.use_special_attack()
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
 
-                    elif event.key == pygame.K_2:  # Attack action
+                    elif event.key == pygame.K_2:  # Special attack
+                        sound_Attack.play()
                         playable_player_pokemon.use_special_attack()
                         playable_player_pokemon.attack_target(playable_enemy_pokemon, playable_player_pokemon.special_attack)
-                        if random.randint(0,1) == 0:
+                        if random.randint(0, 1) == 0:
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.normal_attack)
                         else:
                             playable_enemy_pokemon.use_special_attack()
                             playable_enemy_pokemon.attack_target(playable_player_pokemon, playable_enemy_pokemon.special_attack)
 
 
-                    if playable_enemy_pokemon.stats.get('HP') <= 0:
+                    if playable_enemy_pokemon.stats['HP'] <= 0:
                         player_level += 1  # Increase player level
 
                         # Reset player health after winning
-                        playable_player_pokemon.stats["HP"] = playable_player_pokemon.max_hp
+                        playable_player_pokemon.stats['HP'] = playable_player_pokemon.max_hp
 
                         # Save game progress (this should happen before starting a new battle)
                         save_game(player_name, playable_enemy_pokemon.name, player_level)
@@ -143,17 +127,7 @@ def battle(player_pokemon, enemy_pokemon_list, player_name, playable_player_poke
                         )
                         continue
 
-                   
-                        """# Update evolution if level allows it
-                        evolution_stage = (player_level // 2)  # Determine evolution stage
-                        evolved_pokemon = next((p for p in pokemon_choices if p['id'] == playable_player_pokemon.id + evolution_stage), None)
-                        if evolved_pokemon:
-                            print(f"🎉 {player_pokemon['name']} evolved into {evolved_pokemon['name']}!")
-                            playable_player_pokemon = evolved_pokemon  # Update to evolved Pokémon
-
-                        break  # Exit loop to load next enemy"""
-
-                    if playable_player_pokemon.stats.get("HP") <= 0:
+                    if playable_player_pokemon.stats['HP'] <= 0:
                         sound_Battle.stop()
                         sound_Lost.play()
                         print(f"{playable_player_pokemon.name} is defeated! 💥")

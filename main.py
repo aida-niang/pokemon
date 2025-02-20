@@ -1,8 +1,6 @@
 # main.py
 import pygame
 from game import loading_screen, start_game
-from players import get_player_name
-
 # Main function to handle game flow 
 def main():
     loading_screen() 
