@@ -6,7 +6,7 @@ from save_manager import save_game, get_player_level
 from pokemon import Pokemon
 
 # Load the background image
-background = pygame.image.load('assets/images/background/bg1.jpg')
+background = pygame.image.load('assets/images/background/battle.webp')
 
 def draw_health_bar(x, y, health, max_health):
     """Draws a health bar for Pokémon."""

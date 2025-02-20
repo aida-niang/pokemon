@@ -5,7 +5,8 @@ import pygame
 from settings import *
 
 POKEDEX_FILE = "pokedex.txt"
-background = pygame.image.load('assets/images/background/bg1.jpg')
+background = pygame.image.load('assets/images/background/name.jpg')
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
 def get_player_name():
     """Ask the player to enter their name."""

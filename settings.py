@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 # Screen setup
-WIDTH, HEIGHT = 1000, 700
+WIDTH, HEIGHT = 1400, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pokémon Battle")
 
@@ -22,6 +22,9 @@ current_index = 0
 player_pokemon = None
 enemy_pokemon = None
 
+# Asset paths
+IMAGE_PATH = "assets/images/"
+SOUND_PATH = "assets/sounds/"
 
 #Display text
 def draw_text(text, x, y, color=BLACK):

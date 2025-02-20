@@ -10,11 +10,54 @@ from pokedex import pokedex
 from players import get_player_name  
 from save_manager import load_save, save_game, get_player_pokemon,get_player_level
 from pokemon import Pokemon
+from gif import load_gif_frames
 
 pygame.init()
 
-background = pygame.image.load('assets/images/background/bg1.jpg')
-  
+#Load background 
+start_screen_bg = pygame.image.load("assets/images/background/loading.jpg")
+start_screen_bg = pygame.transform.scale(start_screen_bg, (WIDTH, HEIGHT))
+background = pygame.image.load('assets/images/background/name.jpg')
+background = pygame.transform.scale(start_screen_bg, (WIDTH, HEIGHT))
+
+#load GIF frames
+loading_frames = load_gif_frames("assets/images/gif/loading")
+
+#load sounds :
+sound_loading = pygame.mixer.Sound('assets/sounds/loading.mp3')
+
+sound_loading.play()
+def loading_screen():
+    frame_index = 0
+    clock = pygame.time.Clock()
+    start_time = pygame.time.get_ticks()
+
+    running = True
+    while running:
+        screen.blit(start_screen_bg, (0, 0))
+
+        # Display text "Loading..."
+        loading_text = font.render("Loading...", True, WHITE)
+        screen.blit(loading_text, (620, 700))
+
+        # Display animation gif
+        screen.blit(loading_frames[frame_index], (600, 730))
+        frame_index = (frame_index + 1) % len(loading_frames)  # Change frame
+
+        pygame.display.flip()
+        clock.tick(10)  # speed (~10 FPS)
+
+        # Stop after 3 seconds
+        if pygame.time.get_ticks() - start_time > 3000:
+            running = False
+
+        # Handle events (close window)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+    sound_loading.stop()
+
 def select_pokemon(player_name, pokemon_choices):
     """Handles Pokémon selection."""
     global player_pokemon

@@ -1,8 +1,17 @@
 # main.py
 import pygame
-from game import start_game
+from game import loading_screen, start_game
+from players import get_player_name
 
-if __name__ == "__main__":
+# Main function to handle game flow 
+def main():
+    loading_screen() 
     start_game()
 
+# Start the game
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("Exiting...")
 
