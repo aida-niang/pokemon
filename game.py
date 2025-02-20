@@ -17,14 +17,15 @@ pygame.init()
 #Load background 
 start_screen_bg = pygame.image.load("assets/images/background/loading.jpg")
 start_screen_bg = pygame.transform.scale(start_screen_bg, (WIDTH, HEIGHT))
-background = pygame.image.load('assets/images/background/name.jpg')
-background = pygame.transform.scale(start_screen_bg, (WIDTH, HEIGHT))
+name_bg = pygame.image.load('assets/images/background/name.jpg')
+name_bg = pygame.transform.scale(start_screen_bg, (WIDTH, HEIGHT))
 
 #load GIF frames
 loading_frames = load_gif_frames("assets/images/gif/loading")
 
 #load sounds :
 sound_loading = pygame.mixer.Sound('assets/sounds/loading.mp3')
+sound_start = pygame.mixer.Sound('assets/sounds/start.mp3')
 sound_Battle = pygame.mixer.Sound('assets/sounds/battle.wav')
 sound_Attack = pygame.mixer.Sound('assets/sounds/attack.wav')
 sound_Victory = pygame.mixer.Sound('assets/sounds/victory.wav')
@@ -61,6 +62,7 @@ def loading_screen():
                 exit()
     sound_loading.stop()
 
+sound_start.play()
 def select_pokemon(player_name, pokemon_choices):
     """Handles Pokémon selection."""
     global player_pokemon
@@ -71,7 +73,7 @@ def select_pokemon(player_name, pokemon_choices):
     available_pokemon = get_player_pokemon(player_name, pokemon_choices)
 
     while running:
-        screen.blit(background, (0, 0))
+        screen.blit(name_bg, (0, 0))
         draw_text("Select Your Pokémon", WIDTH // 2, 50)
 
         # Show current Pokémon selection
@@ -141,6 +143,7 @@ def start_game():
                 available_pokemon = get_player_pokemon(player_name, pokemon_choices)
                 player_pokemon = select_pokemon(player_name, pokemon_choices)
                 pokemon_list = fetch_pokemon()
+                sound_start.stop()
                 #temp_pokemon = Pokemon(pokemon_list[5].get('id'), pokemon_list[5].get('name'), pokemon_list[5].get('sprite'), pokemon_list[5].get('stats'), pokemon_list[5].get('apiTypes'), pokemon_list[5].get('apiResistances'))
 
                 for pokemon in pokemon_list: 
@@ -173,8 +176,5 @@ def start_game():
                         save_game(player_name, enemy_pokemon, player_level)  # Save the defeated Pokémon
                     else:
                         print(f"💥 {player_name} lost with {playable_player_pokemon.name}!")
-                        sound_Victory.stop()
-                        sound_Battle.stop()
                         break  # Stop the loop when the player loses
-
     pygame.quit()
