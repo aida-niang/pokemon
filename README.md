@@ -1,6 +1,6 @@
 # Pokémon Game in Python
 
-![preview main](./preview.png)
+![preview main](./frame_5.png)
 
 ## Project Description
 
