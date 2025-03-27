@@ -4,7 +4,7 @@
 
 ## Project Description
 
-This project is an implementation of a **Pokémon game** using the **Pygame** library. It allows players to capture and battle with Pokémon in an interactive environment. The game includes several features inspired by the famous Pokémon franchise, such as turn-based battles, Pokémon capture mechanics, and a navigable world.
+This project is an implementation of a **Pokémon game** using the **Pygame** library and **POKEAPI** . It allows players to capture and battle with Pokémon in an interactive environment. The game includes several features inspired by the famous Pokémon franchise, such as turn-based battles, Pokémon capture mechanics, and a navigable world.
 
 ## Demo
 
