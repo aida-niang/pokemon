@@ -8,7 +8,7 @@ This project is an implementation of a **Pokémon game** using the **Pygame** li
 
 ## Demo
 
-Play the game: [Live Demo](https://www.youtube.com/watch?v=qHljZ4D597c&feature=youtu.be)
+Playing the game: [Live Demo](https://www.youtube.com/watch?v=qHljZ4D597c&feature=youtu.be)
 
 ## 🎮 Features
 
@@ -22,7 +22,7 @@ Play the game: [Live Demo](https://www.youtube.com/watch?v=qHljZ4D597c&feature=y
 
 - **Python**: Main programming language.
 - **Pygame**: Library for game development.
-- **POKEAPI**: API to collect Pokémon information.
+- **PokéAPI**: API to collect Pokémon information.
 - **JSON**: Used to save Pokémon details like name, health points, level, attack, defense, and type.
 
 ## Prerequisites
@@ -117,6 +117,8 @@ Thanks to everyone who contributed to the development of this game!
 
 ## Contact
 
-**Aida NIANG** - [LinkedIn](https://linkedin.com/in/aidabenhamathniang) - aidam.niang@gmail.com  
-Project Link: [Portfolio](https://aida-niang.students-laplateforme.io)
+**Aida NIANG** 
+- I'm in : [LinkedIn](https://linkedin.com/in/aidabenhamathniang)
+- Contact me : [Email](mailto:aidam.niang@gmail.com  )
+- Project Link: [Portfolio](https://aida-niang.students-laplateforme.io)
 
