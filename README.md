@@ -41,6 +41,8 @@ Before running this project, ensure you have the following installed:
 
 1. Clone this repository:
    ```bash
+   git clone https://github.com/aida-niang/pokemon.git
+   ```
 2. Install dependencies:
    ```bash
    pip install pygame requests os json random
